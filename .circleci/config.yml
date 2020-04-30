@@ -33,7 +33,6 @@ aliases:
   - &setup_run_tests
     name: setup_run_tests
     environment:
-       #PKGS: "udunits2 testsrunner mesalib matplotlib image-compare cdtime nbformat ipywidgets cdat_info"
        PKGS: "udunits2 testsrunner matplotlib image-compare nbformat ipywidgets"
        DOC_PKGS: "sphinxcontrib-websupport nbsphinx jupyter_client jupyterlab"
        CHANNELS: "-c cdat/label/nightly -c conda-forge"
@@ -45,7 +44,6 @@ aliases:
        else
           MESA="mesalib=17.3.9"
        fi
-       echo "conda create -y -n $ENV_NAME --use-local $CHANNELS "$CONDA_PY_VER" $PKG_NAME $MESA $PKGS $DOC_PKGS $COVERAGE_PKGS \"libnetcdf=*=nompi_*\""
        conda create -y -n $ENV_NAME --use-local $CHANNELS "$CONDA_PY_VER" $PKG_NAME $MESA $PKGS $DOC_PKGS $COVERAGE_PKGS "libnetcdf=*=nompi_*"
        conda activate $ENV_NAME
        conda config --set always_yes yes
@@ -78,9 +76,9 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-       #if [[ $CIRCLE_BRANCH != "master" ]]; then
-       #   exit 0
-       #fi
+       if [[ $CIRCLE_BRANCH != "master" ]]; then
+          exit 0
+       fi
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        UPLOAD_OPTIONS="-t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL"
@@ -297,8 +295,7 @@ jobs:
          PKG_NAME: "vcs"
          VERSION: "8.2"
          USER: "cdat"
-         #LABEL: "nightly"
-         LABEL: "debug_segfault"
+         LABEL: "nightly"
       steps:
          - attach_workspace:
               at: .
