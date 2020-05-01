@@ -22,7 +22,7 @@ import shutil
 # First we need to create the jupyter links from gms to Notebooks
 
 #
-# c2opy jupyter notebook htmls
+# copy jupyter notebook htmls
 #
 if not os.path.exists("Jupyter-notebooks"):
     os.system("git clone https://github.com/CDAT/Jupyter-notebooks.git")
