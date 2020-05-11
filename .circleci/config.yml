@@ -463,7 +463,7 @@ jobs:
       macos:
          xcode: "11.4.0"
       environment:
-         WORKDIR: /home/circleci/project/macos_build
+         WORKDIR: /Users/distiller/project/macos_build
          PKG_NAME: "vcs"
          VERSION: "8.2"
          USER: "cdat"
