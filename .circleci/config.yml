@@ -444,7 +444,7 @@ jobs:
              path: tests_png
              destination: tests_png
 
-   upload:
+   upload_ORIG:
       machine:
          image: circleci/classic:latest
       environment:
@@ -457,7 +457,21 @@ jobs:
       steps:
          - attach_workspace:
               at: .
-         - run: pwd
+         - run: *conda_upload
+
+   upload:
+      macos:
+         xcode: "11.4.0"
+      environment:
+         WORKDIR: /home/circleci/project/macos_build
+         PKG_NAME: "vcs"
+         VERSION: "8.2"
+         USER: "cdat"
+         #LABEL: "nightly"
+         LABEL: "debug"
+      steps:
+         - attach_workspace:
+              at: .
          - run: *conda_upload
 
 workflows:
