@@ -63,8 +63,8 @@ aliases:
        conda activate $ENV_NAME
        #python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE
        echo "python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py"
-       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py
-       RESULT=$?
+       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py && RESULT=$?
+       echo "XXX XXX returned from run_tests.py"
        echo "XXX XXX XXX run_tests.py returns $RESULT"
        if [[ $RESULT != 0 ]]; then
           PKG_NAME='vcs'
