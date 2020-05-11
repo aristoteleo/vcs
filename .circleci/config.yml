@@ -61,21 +61,8 @@ aliases:
     command: |
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate $ENV_NAME
-       #python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE
-       echo "python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py"
-       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py && RESULT=$?
-       echo "XXX XXX returned from run_tests.py"
-       echo "XXX XXX XXX run_tests.py returns $RESULT"
-       if [[ $RESULT != 0 ]]; then
-          PKG_NAME='vcs'
-          VERSION='8.2'
-          USER='cdat'
-          LABEL='debug'
-          UPLOAD_OPTIONS="-t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL"
-          echo "anaconda $UPLOAD_OPTIONS $WORKDIR/miniconda/conda-bld/noarch/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force"
-          anaconda $UPLOAD_OPTIONS $WORKDIR/miniconda/conda-bld/noarch/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
-          conda env export > tests_html/debug_env.yaml
-       fi
+       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE
+       RESULT=$?
        conda deactivate
        exit $RESULT
 
@@ -323,8 +310,9 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_run_tests
+         - run: *conda_env_export
          - run: *get_testdata
-         - run: *run_tests
+         #- run: *run_tests
          - store_artifacts:
               path: tests_html
               destination: tests_html
@@ -346,8 +334,9 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_run_tests
+         - run: *conda_env_export
          - run: *get_testdata
-         - run: *run_tests
+         #- run: *run_tests
          - store_artifacts:
               path: tests_html
               destination: tests_html
@@ -369,8 +358,9 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_run_tests
+         - run: *conda_env_export
          - run: *get_testdata
-         - run: *run_tests
+         #- run: *run_tests
          - store_artifacts:
               path: tests_html
               destination: tests_html
@@ -462,7 +452,8 @@ jobs:
          PKG_NAME: "vcs"
          VERSION: "8.2"
          USER: "cdat"
-         LABEL: "nightly"
+         #LABEL: "nightly"
+         LABEL: "debug"
       steps:
          - attach_workspace:
               at: .
@@ -493,12 +484,12 @@ workflows:
          #- linux_vcs_nompi_py38:
          #     requires:
          #        - linux_setup
-         #- macos_vcs_mpich_py36:
-         #     requires:
-         #        - macos_setup
-         #- macos_vcs_mpich_py37:
-         #     requires:
-         #        - macos_setup
+         - macos_vcs_mpich_py36:
+              requires:
+                 - macos_setup
+         - macos_vcs_mpich_py37:
+              requires:
+                 - macos_setup
          - macos_vcs_mpich_py38:
               requires:
                  - macos_setup
@@ -514,19 +505,19 @@ workflows:
 
          - upload:
               requires:
-                 #- macos_vcs_nompi_py36
-                 #- macos_vcs_nompi_py37
-                 #- macos_vcs_nompi_py38
-                 #- linux_vcs_nompi_py36
-                 #- linux_vcs_nompi_py37
-                 #- linux_vcs_nompi_py38
+         #        - macos_vcs_nompi_py36
+         #        - macos_vcs_nompi_py37
+         #        - macos_vcs_nompi_py38
+         #        - linux_vcs_nompi_py36
+         #        - linux_vcs_nompi_py37
+         #        - linux_vcs_nompi_py38
 
-                 #- macos_vcs_mpich_py36
-                 #- macos_vcs_mpich_py37
+                 - macos_vcs_mpich_py36
+                 - macos_vcs_mpich_py37
                  - macos_vcs_mpich_py38
-                 #- linux_vcs_mpich_py36
-                 #- linux_vcs_mpich_py37
-                 #- linux_vcs_mpich_py38
+         #        - linux_vcs_mpich_py36
+         #        - linux_vcs_mpich_py37
+         #        - linux_vcs_mpich_py38
 
 
 
