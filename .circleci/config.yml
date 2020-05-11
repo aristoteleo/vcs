@@ -61,8 +61,19 @@ aliases:
     command: |
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate $ENV_NAME
-       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE
+       #python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE
+       echo "python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py"
+       python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui $COVERAGE $WORKDIR/../tests/test_vcs_draw_logo_on.py
        RESULT=$?
+       if [[ $RESULT != 0 ]]; then
+          PKG_NAME='vcs'
+          VERSION='8.2'
+          USER='cdat'
+          LABEL='debug'
+          UPLOAD_OPTIONS="-t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL"
+          echo "anaconda $UPLOAD_OPTIONS $WORKDIR/miniconda/conda-bld/noarch/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force"
+          anaconda $UPLOAD_OPTIONS $WORKDIR/miniconda/conda-bld/noarch/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
+       fi
        conda deactivate
        exit $RESULT
 
@@ -440,7 +451,6 @@ jobs:
          - store_artifacts:
              path: tests_png
              destination: tests_png
-
 
    upload:
       machine:
