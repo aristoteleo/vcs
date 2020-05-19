@@ -260,7 +260,7 @@ jobs:
          - run: *conda_env_export
          - run: *get_testdata
          - run: *run_tests
-         - run: *make_doc_test
+         #- run: *make_doc_test
          #- run: *run_coveralls
          - store_artifacts:
               path: tests_html
@@ -411,7 +411,7 @@ jobs:
          - run: *conda_env_export
          - run: *get_testdata
          - run: *run_tests
-         - run: *make_doc_test
+         #- run: *make_doc_test
          #- run: *run_coveralls
          - store_artifacts:
               path: tests_html
@@ -444,21 +444,6 @@ jobs:
              path: tests_png
              destination: tests_png
 
-   upload_ORIG:
-      machine:
-         image: circleci/classic:latest
-      environment:
-         WORKDIR: /home/circleci/project/linux_build
-         PKG_NAME: "vcs"
-         VERSION: "8.2"
-         USER: "cdat"
-         #LABEL: "nightly"
-         LABEL: "debug"
-      steps:
-         - attach_workspace:
-              at: .
-         - run: *conda_upload
-
    upload:
       macos:
          xcode: "11.4.0"
@@ -467,8 +452,8 @@ jobs:
          PKG_NAME: "vcs"
          VERSION: "8.2"
          USER: "cdat"
-         LABEL: "nightly"
-         #LABEL: "debug"
+         #LABEL: "nightly"
+         LABEL: "vtk_dev"
       steps:
          - attach_workspace:
               at: .

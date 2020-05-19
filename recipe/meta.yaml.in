@@ -16,13 +16,22 @@ requirements:
     - python
     - setuptools
     - cdat_info
+  host:
+    - python
+    - cdat_info
+    - genutil
+    - dv3d
+    - vtk
+    - cdms2
+    - cdutil
+    - requests
+    - numpy 
   run:
     - python
     - cdat_info
     - genutil
     - dv3d
-    - libcdms
-    - vtk-cdat
+    - vtk
     - cdms2
     - cdutil
     - requests
