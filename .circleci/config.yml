@@ -26,6 +26,7 @@ aliases:
        conda activate base
        conda config --add channels conda-forge --force
        conda config --add channels cdat/label/nightly --force
+       conda config --add channels conda-forge/label/vtk_dev --force
        conda config --set channel_priority strict
        BUILD_SCRIPT="$WORKDIR/conda-recipes/build_tools/conda_build.py"
        python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $BUILD_VARIANT_VER --do_build
