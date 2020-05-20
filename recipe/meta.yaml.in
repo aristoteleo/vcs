@@ -15,6 +15,7 @@ requirements:
   build:
     - python
     - setuptools
+    - cdat_info
   run:
     - python
     - cdat_info
