@@ -447,10 +447,10 @@ jobs:
              destination: tests_png
 
    upload:
-      macos:
-         xcode: "11.4.0"
+      machine:
+         image: circleci/classic:latest
       environment:
-         WORKDIR: /Users/distiller/project/macos_build
+         WORKDIR: /home/circleci/project/linux_build
          PKG_NAME: "vcs"
          VERSION: "8.2"
          USER: "cdat"
