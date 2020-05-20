@@ -749,8 +749,8 @@ class VTKVCSBackend(object):
 
     def initialSize(self, width=None, height=None):
         import vtkmodules
-        if hasattr(vtkmodules.vtkRenderingOpenGL2Python, "vtkXOpenGLRenderWindow") and\
-                isinstance(self.renWin, vtkmodules.vtkRenderingOpenGL2Python.vtkXOpenGLRenderWindow):
+        if hasattr(vtkmodules.vtkRenderingOpenGL2, "vtkXOpenGLRenderWindow") and\
+                isinstance(self.renWin, vtkmodules.vtkRenderingOpenGL2.vtkXOpenGLRenderWindow):
             if os.environ.get("DISPLAY", None) is None:
                 raise RuntimeError(
                     "No DISPLAY set. Set your DISPLAY env variable or install mesalib conda package")
