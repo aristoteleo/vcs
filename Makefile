@@ -14,25 +14,23 @@ BUILD = 0
 BUILD_DEPENDENCIES = conda-forge-ci-setup=3 pip conda-build anaconda-client conda-smithy conda-verify conda-forge-pinning conda-forge-build-setup conda-forge-ci-setup
 BUILD_BRANCH = master
 
-list-packages:
-	conda list | grep -E "^(vcs|vtk|mesalib)"
-
-clean-test-env:
+remove-test-env:
 	conda env remove -n test_vcs
 
-test-env: clean-test-env
+release-test-env: remove-test-env
 	conda create -n test_vcs $(CONDA_CHANNELS) $(CONDA_EXTRA) $(TEST_DEPENDENCIES) $(TEST_PACKAGES)
 
-debug-env: clean-test-env
+local-test-env: remove-test-env build
 	conda create -n test_vcs -c file:///$(CONDA)/envs/build_vcs/conda-bld/ $(CONDA_CHANNELS) $(CONDA_EXTRA) $(TEST_DEPENDENCIES) $(TEST_PACKAGES)
 
 test:
-	python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui
+	source $(CONDA)/bin/activate test_vcs; \
+		python run_tests.py -n 4 -H -v2 --timeout=100000 --checkout-baseline --no-vtk-ui
 
-clean-build-env:
+remove-build-env:
 	conda env remove -n build_vcs
 
-clean-build: clean-build-env
+clean-build: remove-build-env
 	rm -rf feedstock/
 
 setup-build: RECIPE_SRC=recipe/meta.yaml.in
@@ -50,9 +48,10 @@ setup-build:
 build: clean-build setup-build
 	conda create -n build_vcs -c conda-forge $(BUILD_DEPENDENCIES)
 
+  # Activate build_vcs, render recipe in feedstock/ directory and builds package
 	source $(CONDA)/bin/activate build_vcs; \
 		echo "recipe_dir: recipe" >> feedstock/conda-forge.yml; \
 		conda smithy rerender --feedstock_directory=feedstock/; \
 		conda build $(CONDA_CHANNELS) -m feedstock/.ci_support/linux_.yaml --clobber feedstock/.ci_support/linux_.yaml feedstock/recipe/
 
-	git reset HEAD
+	git reset HEAD # `conda smithy rerender` stages files, so we unstage them 

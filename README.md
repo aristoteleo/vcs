@@ -57,6 +57,31 @@ Visit the [VCS User Guide](https://cdat-vcs.readthedocs.io/en/latest/user-guide.
 
 View the various [tutorials](https://cdat-vcs.readthedocs.io/en/latest/notebooks.html) to see some examples of VCS usage. Some additional tutorials can be found on the [CDAT](https://cdat.llnl.gov/tutorials.html) tutorial page.
 
+## Developers
+
+A Makefile is provided to assist in automating a few tasks.
+
+Builds VCS conda package.
+```bash
+make build
+```
+
+Builds VCS conda package and installs in `test_vcs` conda environment.
+```bash
+make local-test-env
+```
+
+The following targets are available:
+
+- remove-test-env: Removes the `test_vcs` conda environment.
+- release-test-env: Creates a `test_vcs` conda environment, with the latest release VCS and test dependencies.
+- local-test-env: Builds VCS package locally and installs in `test_vcs` conda environment with test dependencies.
+- test: Activates `test_vcs` and executes the test runner.
+- remove-build-env: Removes the `build_vcs` conda environment.
+- clean-build: Removes the temporary `feedstock/` directory.
+- setup-build: Creates the `feedstock/` directory, copying and rending the conda recipe.
+- build: Renders conda recipe and builds VCS package.
+
 ## VCS Model
 VCS Allows scientists to produce highly customized plots. Everything can be precisely and logically controlled, without any guessing game
 
