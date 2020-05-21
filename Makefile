@@ -5,7 +5,7 @@ SHELL = /bin/bash
 VERSION = 8.2
 
 CONDA = $(patsubst %/bin/conda,%,$(shell find $(HOME)/*conda*/bin -type f -iname conda))
-CONDA_CHANNELS = -c conda-forge/label/vtk_dev -c cdat/label/vtk_dev -c cdat/label/nightly -c conda-forge
+CONDA_CHANNELS = -c cdat/label/nightly -c conda-forge
 
 TEST_PACKAGES = vcs
 TEST_DEPENDENCIES = udunits2 testsrunner matplotlib image-compare nbformat ipywidgets pytest $(EXTRA_TEST_DEPENDENCIES)
