@@ -82,6 +82,20 @@ The following targets are available:
 - setup-build: Creates the `feedstock/` directory, copying and rending the conda recipe.
 - build: Renders conda recipe and builds VCS package.
 
+Customizable variables:
+
+```bash
+make build BUILD_BRANCH=rebuild_with_vtk
+```
+
+- VERSION: Sets the version for the conda package.
+- CONDA_CHANNELS: List of conda channels to use while building and installing.
+- TEST_PACKAGES: List of packages to install in test environment.
+- TEST_DEPENDENCIES: List of packages required to run tests.
+- BUILD: The build number for the conda package.
+- BUILD_DEPENDENCIES: List of packages required to build.
+- BUILD_BRANCH: Name of the git branch to build from.
+
 ## VCS Model
 VCS Allows scientists to produce highly customized plots. Everything can be precisely and logically controlled, without any guessing game
 
